@@ -1,0 +1,9 @@
+br\com\ocampeonato\dao\TimeDAO.class
+br\com\ocampeonato\controller\JogadorService.class
+br\com\ocampeonato\dao\JogadorDAO.class
+br\com\ocampeonato\controller\TimeService.class
+br\com\ocampeonato\view\TimeView.class
+br\com\ocampeonato\model\Jogador.class
+br\com\ocampeonato\view\JogadorView.class
+br\com\ocampeonato\model\Time.class
+br\com\ocampeonato\dao\EntityManagerProvider.class
