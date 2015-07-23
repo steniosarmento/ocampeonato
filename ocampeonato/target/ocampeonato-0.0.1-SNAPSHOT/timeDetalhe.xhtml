@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="template/ui.xhtml">
+	<ui:define name="body">
+		<h:form id="principalForm">
+			<p:growl id="msgs" showDetail="true" />
+			<br />
+			<p:link outcome="jogadorDetalhe" value="Jogadores" />
+			<br />
+			<br />
+			<!-- Botão Novo Time -->
+			<p:commandButton value="Novo" id="novo" icon="ui-icon-disk"
+				oncomplete="PF('novoTimeDialog').show()" />
+			<br />
+			<br />
+			<!-- DataTable de Times -->
+			<p:dataTable id="timeDT" var="time" value="#{timeView.times}"
+				rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{timeView.selecionadoTime}" rowKey="#{time.id}">
+				<f:facet name="header">Times</f:facet>
+				<p:ajax event="rowSelect" update=":principalForm:timeDetail"
+					oncomplete="PF('timeDialog').show()" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{time.nome}" />
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{time.tipo}" />
+				</p:column>
+			</p:dataTable>
+			<!-- Modal de detalhes -->
+			<p:dialog header="Detalhes Time" widgetVar="timeDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="timeDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value"
+						rendered="#{not empty timeView.selecionadoTime}">
+						<f:facet name="header">
+							<p:graphicImage
+								value="/img/#{timeView.selecionadoTime.nomeImagem}" title="Foto" />
+						</f:facet>
+						<h:outputText value="Nome:" />
+						<h:inputText value="#{timeView.selecionadoTime.nome}" />
+						<h:outputText value="Tipo" />
+						<h:inputText value="#{timeView.selecionadoTime.tipo}" />
+					</p:panelGrid>
+					<br />
+					<!-- Botão Novo Time -->
+					<p:commandButton value="Incluir Jogador" id="incluirJogador"
+						icon="ui-icon-disk" oncomplete="PF('inserirJogadorDialog').show()" />
+					<br />
+					<br />
+					<p:dataList value="#{timeView.selecionadoTime.jogadores}"
+						var="jogador" type="ordered">
+						<f:facet name="header">Jogadores</f:facet>
+        				#{jogador.nome}
+        				<p:commandButton id="excluir"
+							title="Remover Jogador do Time"
+							actionListener="#{timeView.removeJogadorAction(jogador)}"
+							ajax="false" icon="ui-icon-close" />
+					</p:dataList>
+					<br />
+					<p:commandButton value="Atualizar" id="atualizar"
+						actionListener="#{timeView.atualizaAction}" ajax="false"
+						icon="ui-icon-check" title="Salvar as alterações no time" />
+					<p:commandButton value="Excluir" id="excluir"
+						title="Excluir todo o time"
+						actionListener="#{timeView.deletaAction}" ajax="false"
+						icon="ui-icon-close" />
+				</p:outputPanel>
+			</p:dialog>
+			<!-- Modal Novo Time -->
+			<p:dialog header="Novo Time" widgetVar="novoTimeDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="novoTimeDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value">
+						<h:outputText value="Nome:" />
+						<h:inputText value="#{timeView.novoTime.nome}" />
+						<h:outputText value="Tipo" />
+						<h:inputText value="#{timeView.novoTime.tipo}" />
+					</p:panelGrid>
+					<br />
+					<p:commandButton value="Confirmar" id="confirmar"
+						actionListener="#{timeView.novoAction}" ajax="false"
+						icon="ui-icon-check" />
+				</p:outputPanel>
+			</p:dialog>
+			<!-- Modal Inserir Jogador -->
+			<p:dialog header="Inserir Jogador" widgetVar="inserirJogadorDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="inserirJogadorDetail" style="text-align:center;">
+					<p:dataTable id="jogadorDT" var="jogador"
+						value="#{jogadorView.jogadores}" rows="5" paginator="true"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" selectionMode="single"
+						selection="#{jogadorView.selecionadoJogador}"
+						rowKey="#{jogador.id}">
+						<f:facet name="header">Jogadores</f:facet>
+						<p:ajax event="rowSelect"
+							listener="#{timeView.adicionaJogadorAction(jogadorView.selecionadoJogador)}"
+							update=":principalForm:timeDetail" />
+						<p:column headerText="Nome">
+							<h:outputText value="#{jogador.nome}" />
+						</p:column>
+						<p:column headerText="CPF">
+							<h:outputText value="#{jogador.cpfMascarado}" />
+						</p:column>
+						<p:column headerText="Nascimento">
+							<h:outputText value="#{jogador.dataNascimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
