@@ -5,13 +5,7 @@
 @import url('font-awesome.min.css');
 @import url("http://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic|Source+Code+Pro:400");
 
-/*
-	Read Only by SSA D3
-	ssad3.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (ssad3.net/license)
-*/
-
-	@import "libs/skel";
+ @import "libs/skel";
 
 	@include skel-breakpoints((
 		xlarge: '(max-width: 1680px)',
