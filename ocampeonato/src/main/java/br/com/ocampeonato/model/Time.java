@@ -1,6 +1,6 @@
 package br.com.ocampeonato.model;
 
-//Produto.java
+//Time.java
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Time {
@@ -19,8 +20,44 @@ public class Time {
 	private String nomeImagem;
 	private String tipo;
 	@ManyToMany(targetEntity = Jogador.class)
-	@JoinTable(joinColumns = { @JoinColumn(name = "time_id") }, inverseJoinColumns = { @JoinColumn(name = "jogador_id") })
+	@JoinTable(joinColumns = { @JoinColumn(name = "time_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "jogador_id") })
 	private List jogadores;
+	@ManyToMany(mappedBy = "times", targetEntity = Campeonato.class)
+	private List campeonatos;
+
+	@OneToMany(mappedBy = "timeLocal", targetEntity = Jogo.class)
+	private List jogosLocal;
+
+	@OneToMany(mappedBy = "timeVisitante", targetEntity = Jogo.class)
+	private List jogosVisitante;
+
+	@OneToMany(mappedBy = "time", targetEntity = Gol.class)
+	private List gols;
+
+	public List getGols() {
+		return gols;
+	}
+
+	public void setGols(List gols) {
+		this.gols = gols;
+	}
+
+	public List getJogosLocal() {
+		return jogosLocal;
+	}
+
+	public void setJogosLocal(List jogosLocal) {
+		this.jogosLocal = jogosLocal;
+	}
+
+	public List getJogosVisitante() {
+		return jogosVisitante;
+	}
+
+	public void setJogosVisitante(List jogosVisitante) {
+		this.jogosVisitante = jogosVisitante;
+	}
 
 	public int getId() {
 		return id;
@@ -60,5 +97,13 @@ public class Time {
 
 	public void setJogadores(List jogadores) {
 		this.jogadores = jogadores;
+	}
+
+	public List getCampeonatos() {
+		return campeonatos;
+	}
+
+	public void setCampeonatos(List campeonatos) {
+		this.campeonatos = campeonatos;
 	}
 }

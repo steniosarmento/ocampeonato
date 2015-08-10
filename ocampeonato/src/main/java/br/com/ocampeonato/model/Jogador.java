@@ -1,6 +1,6 @@
 package br.com.ocampeonato.model;
 
-//Produto.java
+//Jogador.java
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Jogador {
@@ -23,6 +24,17 @@ public class Jogador {
 	@ManyToMany(mappedBy = "jogadores", targetEntity = Time.class)
 	private List times;
 
+	@OneToMany(mappedBy = "jogador", targetEntity = Gol.class)
+	private List gols;
+
+	public List getGols() {
+		return gols;
+	}
+
+	public void setGols(List gols) {
+		this.gols = gols;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -36,8 +48,7 @@ public class Jogador {
 	}
 
 	public String getCpfMascarado() {
-		return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "."
-				+ cpf.substring(6, 9) + "-" + cpf.substring(9);
+		return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9);
 	}
 
 	public void setCpf(String cpf) {

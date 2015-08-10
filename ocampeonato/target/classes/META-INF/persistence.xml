@@ -6,6 +6,9 @@
 
 		<class>br.com.ocampeonato.model.Jogador</class>
 		<class>br.com.ocampeonato.model.Time</class>
+		<class>br.com.ocampeonato.model.Campeonato</class>
+		<class>br.com.ocampeonato.model.Jogo</class>
+		<class>br.com.ocampeonato.model.Gol</class>
 
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

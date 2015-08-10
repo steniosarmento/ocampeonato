@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="template/ui.xhtml">
+	<ui:define name="body">
+		<h:form id="principalForm">
+			<p:growl id="msgs" showDetail="true" />
+			<br />
+			<p:link outcome="jogadorDetalhe" value="Jogadores" />
+			<br />
+			<p:link outcome="timeDetalhe" value="Times" />
+			<br />
+			<br />
+			<!-- Botão Novo Campeonato -->
+			<p:commandButton value="Novo" id="novo" icon="ui-icon-disk"
+				oncomplete="PF('novoCampeonatoDialog').show()" />
+			<br />
+			<br />
+			<!-- DataTable de Campeonatos -->
+			<p:dataTable id="campeonatoDT" var="campeonato"
+				value="#{campeonatoView.campeonatos}" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{campeonatoView.selecionadoCampeonato}"
+				rowKey="#{campeonato.id}">
+				<f:facet name="header">Campeonatos</f:facet>
+				<p:ajax event="rowSelect" update=":principalForm:campeonatoDetail"
+					oncomplete="PF('campeonatoDialog').show()" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{campeonato.nome}" />
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{campeonato.tipo}" />
+				</p:column>
+			</p:dataTable>
+			<!-- Modal de detalhes -->
+			<p:dialog header="Detalhes Campeonato" widgetVar="campeonatoDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="campeonatoDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value"
+						rendered="#{not empty campeonatoView.selecionadoCampeonato}">
+						<h:outputText value="Nome:" />
+						<h:inputText value="#{campeonatoView.selecionadoCampeonato.nome}" />
+						<h:outputText value="Tipo" />
+						<h:inputText value="#{campeonatoView.selecionadoCampeonato.tipo}" />
+					</p:panelGrid>
+					<br />
+					<!-- Botão Novo Campeonato -->
+					<p:commandButton value="Incluir Time" id="incluirTime"
+						icon="ui-icon-disk" oncomplete="PF('inserirTimeDialog').show()" />
+					<br />
+					<br />
+					<p:dataList value="#{campeonatoView.selecionadoCampeonato.times}"
+						var="time" type="ordered">
+						<f:facet name="header">Timees</f:facet>
+        				#{time.nome}
+        				<p:commandButton id="excluir"
+							title="Remover Time do Campeonato"
+							actionListener="#{campeonatoView.removeTimeAction(time)}"
+							ajax="false" icon="ui-icon-close" />
+					</p:dataList>
+					<br />
+					<p:commandButton value="Atualizar" id="atualizar"
+						actionListener="#{campeonatoView.atualizaAction}" ajax="false"
+						icon="ui-icon-check" title="Salvar as alterações no campeonato" />
+					<p:commandButton value="Excluir" id="excluir"
+						title="Excluir todo o campeonato"
+						actionListener="#{campeonatoView.deletaAction}" ajax="false"
+						icon="ui-icon-close" />
+				</p:outputPanel>
+			</p:dialog>
+			<!-- Modal Novo Campeonato -->
+			<p:dialog header="Novo Campeonato" widgetVar="novoCampeonatoDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="novoCampeonatoDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value">
+						<h:outputText value="Nome:" />
+						<h:inputText value="#{campeonatoView.novoCampeonato.nome}" />
+						<h:outputText value="Tipo" />
+						<h:inputText value="#{campeonatoView.novoCampeonato.tipo}" />
+					</p:panelGrid>
+					<br />
+					<p:commandButton value="Confirmar" id="confirmar"
+						actionListener="#{campeonatoView.novoAction}" ajax="false"
+						icon="ui-icon-check" />
+				</p:outputPanel>
+			</p:dialog>
+			<!-- Modal Inserir Time -->
+			<p:dialog header="Inserir Time" widgetVar="inserirTimeDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="inserirTimeDetail" style="text-align:center;">
+					<p:dataTable id="timeDT" var="time" value="#{timeView.times}"
+						rows="5" paginator="true"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" selectionMode="single"
+						selection="#{timeView.selecionadoTime}" rowKey="#{time.id}">
+						<f:facet name="header">Timees</f:facet>
+						<p:ajax event="rowSelect"
+							listener="#{campeonatoView.adicionaTimeAction(timeView.selecionadoTime)}"
+							update=":principalForm:campeonatoDetail" />
+						<p:column headerText="Nome">
+							<h:outputText value="#{time.nome}" />
+						</p:column>
+						<p:column headerText="Tipo">
+							<h:outputText value="#{time.tipo}" />
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
