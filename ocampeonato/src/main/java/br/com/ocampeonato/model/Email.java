@@ -24,9 +24,9 @@ public class Email {
 	private String texto;
 
 	public Session ConfiguraEmail() {
-		final String senha = "Fg920380";
+		final String senha = "testando";
 		Properties props = new Properties();
-		/** Par‚metros de conex„o com servidor Hotmail */
+		/** Par√¢metros de conex√£o com servidor Hotmail */
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", "smtp.live.com");
 		props.put("mail.smtp.socketFactory.port", "587");
@@ -40,7 +40,7 @@ public class Email {
 			}
 		});
 
-		/** Ativa Debug para sess„o */
+		/** Ativa Debug para sess√£o */
 		session.setDebug(true);
 		return session;
 	}
@@ -89,10 +89,10 @@ public class Email {
 		try {
 			Message message = new MimeMessage(ConfiguraEmail());
 			message.setFrom(new InternetAddress(remetente)); // Remetente
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino)); // Destinat·rio
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino)); // Destinat√°rio
 			message.setSubject(assunto);// Assunto
 			message.setText(texto); // Texto
-			Transport.send(message); // MÈtodo para enviar a mensagem criada
+			Transport.send(message); // M√©todo para enviar a mensagem criada
 
 			System.out.println("E-mail enviado com sucesso!");
 
