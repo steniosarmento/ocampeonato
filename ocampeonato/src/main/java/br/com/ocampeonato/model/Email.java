@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import br.com.ocampeonato.controller.ParametroService;
+
 @Entity
 public class Email {
 	@Id
@@ -24,7 +26,11 @@ public class Email {
 	private String texto;
 
 	public Session ConfiguraEmail() {
-		final String senha = "Fg920380";
+		// Recupera a senha do email no Banco.
+		ParametroService parametroService = new ParametroService();
+		Parametro parametro = parametroService.listaUnico();
+		final String senha = parametro.getSenha();
+
 		Properties props = new Properties();
 		/** Parâmetros de conexão com servidor Hotmail */
 		props.put("mail.transport.protocol", "smtp");

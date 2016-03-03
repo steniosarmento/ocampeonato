@@ -11,7 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import br.com.ocampeonato.controller.EmailService;
+import br.com.ocampeonato.controller.ParametroService;
 import br.com.ocampeonato.model.Email;
+import br.com.ocampeonato.model.Parametro;
 
 @ManagedBean(name = "emailView")
 @ViewScoped
@@ -63,6 +65,13 @@ public class EmailView implements Serializable {
 	}
 
 	public void novoAction(ActionEvent actionEvent) {
+		//Recupera os parâmetros de email do Banco de Dados,
+		//tais como remetente, destinatário, assunto padrão e senha.
+		ParametroService parametroService = new ParametroService();
+		Parametro parametro = parametroService.listaUnico();
+		novoEmail.setAssunto(parametro.getAssunto());
+		novoEmail.setDestino(parametro.getDestino());
+		novoEmail.setRemetente(parametro.getRemetente());
 		service.inclui(novoEmail);
 		adicionaMenssagem("Email enviado!");
 		novoEmail = new Email();

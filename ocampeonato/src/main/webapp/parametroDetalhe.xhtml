@@ -13,36 +13,42 @@
 			<br />
 			<br />
 			<br />
-			<!-- Modal Novo Email -->
-			<p:outputPanel id="novoEmailDetail" style="text-align:center;">
-				<p:panelGrid columns="1" columnClasses="label,value">
-					<h:outputText value="Texto" />
-					<h:inputTextarea value="#{emailView.novoEmail.texto}" />
+			<!-- Modal Novo Parametro -->
+			<p:outputPanel id="novoParametroDetail" style="text-align:center;">
+				<p:panelGrid columns="4" columnClasses="label,value">
+					<h:outputText value="Remetente:" />
+					<h:inputText value="#{parametroView.novoParametro.remetente}" />
+					<h:outputText value="Destinatario" />
+					<h:inputText value="#{parametroView.novoParametro.destino}" />
+					<h:outputText value="Assunto" />
+					<h:inputText value="#{parametroView.novoParametro.assunto}" />
+					<h:outputText value="Senha" />
+					<h:inputText value="#{parametroView.novoParametro.senha}" />
 				</p:panelGrid>
 				<br />
-				<p:commandButton value="Enviar" id="enviar"
-					actionListener="#{emailView.novoAction}" ajax="false"
+				<p:commandButton value="Cadastrar" id="cadastrar"
+					actionListener="#{parametroView.novoAction}" ajax="false"
 					icon="ui-icon-check" />
 			</p:outputPanel>
 			<br />
 			<br />
-			<!-- DataTable de Emails -->
-			<p:dataTable id="emailDT" var="email" value="#{emailView.emails}"
+			<!-- DataTable de Parametros -->
+			<p:dataTable id="parametroDT" var="parametro" value="#{parametroView.parametros}"
 				rows="5" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15">
-				<f:facet name="header">Emails</f:facet>
+				<f:facet name="header">Parametros</f:facet>
 				<p:column headerText="Remetente">
-					<h:outputText value="#{email.remetente}" />
+					<h:outputText value="#{parametro.remetente}" />
 				</p:column>
 				<p:column headerText="Destinatário">
-					<h:outputText value="#{email.destino}" />
+					<h:outputText value="#{parametro.destino}" />
 				</p:column>
 				<p:column headerText="Assunto">
-					<h:outputText value="#{email.assunto}" />
+					<h:outputText value="#{parametro.assunto}" />
 				</p:column>
-				<p:column headerText="Texto">
-					<h:outputText value="#{email.texto}" />
+				<p:column headerText="Senha">
+					<h:outputText value="#{parametro.senha}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
