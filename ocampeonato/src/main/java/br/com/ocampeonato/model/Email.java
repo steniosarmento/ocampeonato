@@ -26,15 +26,10 @@ public class Email {
 	private String texto;
 
 	public Session ConfiguraEmail() {
-<<<<<<< HEAD
 		// Recupera a senha do email no Banco.
 		ParametroService parametroService = new ParametroService();
 		Parametro parametro = parametroService.listaUnico();
 		final String senha = parametro.getSenha();
-
-=======
-		final String senha = "testando";
->>>>>>> origin/novo_branch
 		Properties props = new Properties();
 		/** Parâmetros de conexão com servidor Hotmail */
 		props.put("mail.transport.protocol", "smtp");
