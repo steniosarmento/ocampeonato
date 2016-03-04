@@ -21,17 +21,23 @@ public class Email {
 	@GeneratedValue
 	private int id;
 	private String remetente;
+	private String remetenteInterno;
 	private String destino;
 	private String assunto;
 	private String texto;
 
 	public Session ConfiguraEmail() {
-		// Recupera a senha do email no Banco.
+		// Dados padr„o do email
 		ParametroService parametroService = new ParametroService();
 		Parametro parametro = parametroService.listaUnico();
 		final String senha = parametro.getSenha();
+		destino = parametro.getDestino();
+		remetenteInterno = parametro.getRemetente();
+
+		texto = texto + " Enviado por: " + remetente;
+		
 		Properties props = new Properties();
-		/** Par√¢metros de conex√£o com servidor Hotmail */
+		/** Parametros de conexao com servidor Hotmail */
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", "smtp.live.com");
 		props.put("mail.smtp.socketFactory.port", "587");
@@ -41,11 +47,11 @@ public class Email {
 		props.put("mail.smtp.port", "587");
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(remetente, senha);
+				return new PasswordAuthentication(remetenteInterno, senha);
 			}
 		});
 
-		/** Ativa Debug para sess√£o */
+		/** Ativa Debug para sess„o */
 		session.setDebug(true);
 		return session;
 	}
@@ -64,6 +70,14 @@ public class Email {
 
 	public void setRemetente(String remetente) {
 		this.remetente = remetente;
+	}
+	
+	public String getRemetenteInterno() {
+		return remetenteInterno;
+	}
+
+	public void setRemetenteInterno(String remetenteInterno) {
+		this.remetenteInterno = remetenteInterno;
 	}
 
 	public String getDestino() {
@@ -93,11 +107,11 @@ public class Email {
 	public void enviaEmail() {
 		try {
 			Message message = new MimeMessage(ConfiguraEmail());
-			message.setFrom(new InternetAddress(remetente)); // Remetente
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino)); // Destinat√°rio
+			message.setFrom(new InternetAddress(remetenteInterno)); // Remetente
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino)); // Destinatario
 			message.setSubject(assunto);// Assunto
 			message.setText(texto); // Texto
-			Transport.send(message); // M√©todo para enviar a mensagem criada
+			Transport.send(message); // MÈtodo para enviar a mensagem criada
 
 			System.out.println("E-mail enviado com sucesso!");
 
