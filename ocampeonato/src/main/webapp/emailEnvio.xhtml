@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="template/ui.xhtml">
+	<ui:define name="body">
+		<h:form id="principalForm">
+			<p:growl id="msgs" showDetail="true" />
+			<br />
+			<br />
+			<br />
+			<!-- Modal Novo Email -->
+			<p:outputPanel id="novoEmailDetail" style="text-align:center;">
+				<p:panelGrid columns="2" columnClasses="label,value">
+					<h:outputText value="Nome" />
+					<h:inputText value="#{emailView.novoEmail.nomeRemetente}" />
+					<h:outputText value="E-mail" />
+					<h:inputText value="#{emailView.novoEmail.remetente}" />
+					<h:outputText value="Assunto" />
+					<h:inputText value="#{emailView.novoEmail.assunto}" />
+					<h:outputText value="Mensagem" />
+					<h:inputTextarea value="#{emailView.novoEmail.texto}" />
+				</p:panelGrid>
+				<br />
+				<p:commandButton value="Enviar" id="enviar"
+					actionListener="#{emailView.novoAction}" ajax="false"
+					icon="ui-icon-check" />
+			</p:outputPanel>
+			<br />
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>

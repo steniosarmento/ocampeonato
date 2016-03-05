@@ -24,7 +24,8 @@ public class ParametroDAO {
 
 	public Parametro listaUnico() {
 		Criteria crit = session.createCriteria(Parametro.class);
-		Criterion remetente = Restrictions.gt("remetente", "stenio.sarmento@hotmail.com");
+		// pega o primeiro parametro
+		Criterion id = Restrictions.gt("id",1);
 		crit.setMaxResults(1);
 		Parametro parametro = (Parametro) crit.uniqueResult();
 		return parametro;

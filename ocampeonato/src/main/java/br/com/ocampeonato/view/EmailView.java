@@ -11,9 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import br.com.ocampeonato.controller.EmailService;
-import br.com.ocampeonato.controller.ParametroService;
 import br.com.ocampeonato.model.Email;
-import br.com.ocampeonato.model.Parametro;
 
 @ManagedBean(name = "emailView")
 @ViewScoped

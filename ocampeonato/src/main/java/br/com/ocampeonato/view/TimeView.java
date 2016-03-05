@@ -13,6 +13,7 @@ import javax.faces.event.ActionEvent;
 import br.com.ocampeonato.controller.TimeService;
 import br.com.ocampeonato.model.Email;
 import br.com.ocampeonato.model.Jogador;
+import br.com.ocampeonato.model.Parametro;
 import br.com.ocampeonato.model.Time;
 
 @ManagedBean(name = "timeView")
@@ -27,7 +28,7 @@ public class TimeView implements Serializable {
 	private Time selecionadoTime;
 	private Time novoTime = new Time();
 	private Email novoEmail = new Email();
-
+	
 	@ManagedProperty("#{timeService}")
 	private TimeService service;
 
@@ -74,8 +75,6 @@ public class TimeView implements Serializable {
 	public void adicionaJogadorAction(Jogador j) {
 		selecionadoTime.getJogadores().add(j);
 		novoEmail.setAssunto("Inclusão de Jogador no Time - " + selecionadoTime.getNome());
-		novoEmail.setDestino("stenio.sarmento@gmail.com");
-		novoEmail.setRemetente("stenio.sarmento@hotmail.com");
 		novoEmail.setTexto("O jogador " + j.getNome() + " foi adicionado ao time: " + selecionadoTime.getNome());
 		novoEmail.enviaEmail();
 		service.atualiza(selecionadoTime);

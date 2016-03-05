@@ -21,6 +21,7 @@ public class Email {
 	@GeneratedValue
 	private int id;
 	private String remetente;
+	private String nomeRemetente;
 	private String remetenteInterno;
 	private String destino;
 	private String assunto;
@@ -33,8 +34,8 @@ public class Email {
 		final String senha = parametro.getSenha();
 		destino = parametro.getDestino();
 		remetenteInterno = parametro.getRemetente();
-
-		texto = texto + " Enviado por: " + remetente;
+		
+		texto = texto + "\nEnviado por: " + remetente;
 		
 		Properties props = new Properties();
 		/** Parametros de conexao com servidor Hotmail */
@@ -96,6 +97,14 @@ public class Email {
 		this.assunto = assunto;
 	}
 
+	public String getNomeRemetente() {
+		return nomeRemetente;
+	}
+
+	public void setNomeRemetente(String nomeRemetente) {
+		this.nomeRemetente = nomeRemetente;
+	}
+	
 	public String getTexto() {
 		return texto;
 	}
